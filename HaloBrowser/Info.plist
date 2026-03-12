@@ -6,6 +6,10 @@
 	<array>
 		<dict/>
 	</array>
+	<key>NSAllowsArbitraryLoads</key>
+	<true/>
+	<key>NSAllowsArbitraryLoadsInWebContent</key>
+	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict/>
 </dict>

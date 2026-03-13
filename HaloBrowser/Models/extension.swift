@@ -19,9 +19,18 @@ import UIKit
 /// Returns the platform-appropriate window background color
 var platformWindowBackgroundColor: Color {
     #if os(macOS)
-    return Color(NSColor.windowBackgroundColor)
+    return Color(nsColor: .windowBackgroundColor)
     #else
-    return Color(UIColor.systemBackground)
+    return Color(uiColor: .systemBackground)
+    #endif
+}
+
+/// Returns the platform-appropriate control background color
+var platformControlBackgroundColor: Color {
+    #if os(macOS)
+    return Color(nsColor: .controlBackgroundColor)
+    #else
+    return Color(uiColor: .secondarySystemBackground)
     #endif
 }
 

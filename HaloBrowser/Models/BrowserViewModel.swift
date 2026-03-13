@@ -75,7 +75,9 @@ class BrowserViewModel {
                 let space = HaloSpace(id: ps.id, name: ps.name, iconName: ps.iconName,
                                       color: Color(persisted: ps.color))
                 space.tabs       = ps.tabs.map       { HaloTab(id: $0.id, url: $0.urlString, isSleeping: $0.isSleeping) }
-                space.pinnedTabs = ps.pinnedTabs.map { HaloTab(id: $0.id, url: $0.urlString, isSleeping: $0.isSleeping) }
+                space.pinnedTabs = ps.pinnedTabs.map {
+                    HaloTab(id: $0.id, url: $0.urlString, isSleeping: true)
+                }
                 space.folders    = ps.folders.map { pf in
                     HaloFolder(id: pf.id, name: pf.name, color: Color(persisted: pf.color),
                                tabs: pf.tabs.map { HaloTab(id: $0.id, url: $0.urlString, isSleeping: $0.isSleeping) },
@@ -218,12 +220,14 @@ class BrowserViewModel {
     /// Pin the active tab — moves it from `tabs` (or folder tabs) into `pinnedTabs`
     func pinActiveTab() {
         guard let tab = activeTab else { return }
-        guard !activeSpace.pinnedTabs.contains(tab) else { return } // already pinned
+        guard !activeSpace.pinnedTabs.contains(tab) else { return }
 
-        // Remove from wherever it currently lives
+        if let liveURL = tab.page?.url?.absoluteString {
+            tab.urlString = liveURL
+        }
+
         removeTabFromAllContainers(tab, inSpace: activeSpace)
         activeSpace.pinnedTabs.append(tab)
-        // Keep it selected
         activeTabId = tab.id
         saveState()
     }
@@ -231,6 +235,9 @@ class BrowserViewModel {
     /// Unpin a pinned tab — moves it back into the normal `tabs` list
     func unpinTab(_ tab: HaloTab) {
         guard let i = activeSpace.pinnedTabs.firstIndex(of: tab) else { return }
+        if let liveURL = tab.page?.url?.absoluteString {
+            tab.urlString = liveURL
+        }
         activeSpace.pinnedTabs.remove(at: i)
         activeSpace.tabs.append(tab)
         saveState()
@@ -392,6 +399,9 @@ class BrowserViewModel {
 extension BrowserViewModel {
     /// Move a tab (from anywhere) into `pinnedTabs` — called from context menu "Pin Tab"
     func moveTabToPinned(_ tab: HaloTab) {
+        if let liveURL = tab.page?.url?.absoluteString {
+            tab.urlString = liveURL
+        }
         removeTabFromAllContainers(tab, inSpace: activeSpace)
         if !activeSpace.pinnedTabs.contains(tab) {
             activeSpace.pinnedTabs.append(tab)

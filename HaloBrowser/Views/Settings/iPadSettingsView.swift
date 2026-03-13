@@ -2,6 +2,10 @@
 //  iPadSettingsView.swift
 //  HaloBrowser
 //
+//  Created by Julian on 13.03.26.
+//
+
+
 //  Created for iPad — replaces the macOS sheet with a full-overlay
 //  glass-effect panel that looks and feels like a native macOS Settings
 //  window, but adapted for iPadOS touch interaction.
@@ -624,9 +628,7 @@ private struct iPadPrivacyPane: View {
                                             isPresented: $showClearConfirm,
                                             titleVisibility: .visible) {
                             Button("Clear Everything", role: .destructive) {
-                                WKWebsiteDataStore.default().removeData(
-                                    ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
-                                    modifiedSince: .distantPast) { }
+                                
                             }
                         } message: { Text("This cannot be undone.") }
                 }

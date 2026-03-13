@@ -184,7 +184,7 @@ struct AddSpaceSheet: View {
                                         RoundedRectangle(cornerRadius: 10)
                                             .fill(selectedIcon == icon
                                                   ? selectedColor.opacity(0.12)
-                                                  : Color(NSColor.controlBackgroundColor))
+                                                  : platformControlBackgroundColor)
                                     )
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 10)
@@ -232,7 +232,7 @@ struct AddSpaceSheet: View {
             }
         }
         .frame(width: 500, height: 620)
-        .background(Color(NSColor.windowBackgroundColor))
+        .background(platformWindowBackgroundColor)
     }
 
     private func sectionLabel(_ text: String) -> some View {

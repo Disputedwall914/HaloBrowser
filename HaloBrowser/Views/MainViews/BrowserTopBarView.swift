@@ -321,7 +321,11 @@ private struct SiteInfoPopover: View {
             .padding(.horizontal, 8)
         }
         .frame(width: 300)
-        .background(Color(NSColor.windowBackgroundColor))
+#if os(macOS)
+        .background(Color(nsColor: .windowBackgroundColor))
+#else
+        .background(Color(uiColor: .systemBackground))
+#endif
     }
 }
  

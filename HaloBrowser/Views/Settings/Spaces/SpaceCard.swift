@@ -140,7 +140,7 @@ struct SpaceCard: View {
             RoundedRectangle(cornerRadius: 14)
                 .fill(isEditing
                       ? space.color.opacity(0.07)
-                      : Color(NSColor.controlBackgroundColor))
+                      : platformControlBackgroundColor)
                 .shadow(color: isEditing ? space.color.opacity(0.15) : Color.black.opacity(0.04),
                         radius: isEditing ? 8 : 3, x: 0, y: 2)
         )

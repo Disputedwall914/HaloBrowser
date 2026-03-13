@@ -74,6 +74,8 @@ enum SettingsPane: String, CaseIterable, Identifiable {
 struct BrowserSettingsView: View {
     @Bindable var model: BrowserViewModel
     @State private var selectedPane: SettingsPane = .tabs
+    private let sidebarBackgroundColor = SettingsViewColors.sidebarBackground
+    private let windowBackgroundColor = SettingsViewColors.windowBackground
 
     /// Dismisses the sheet. Works automatically because BrowserView presents
     /// this via .sheet() — no extra @Binding<Bool> needed.
@@ -121,7 +123,7 @@ struct BrowserSettingsView: View {
                 Spacer()
             }
             .frame(width: 200)
-            .background(Color(NSColor.controlBackgroundColor))
+            .background(sidebarBackgroundColor)
 
             Divider()
 
@@ -143,7 +145,7 @@ struct BrowserSettingsView: View {
         }
         .frame(minWidth: 680, minHeight: 500)
         .frame(height: 500)
-        .background(Color(NSColor.windowBackgroundColor))
+        .background(windowBackgroundColor)
     }
 }
 
@@ -209,13 +211,18 @@ struct SettingsSection<Content: View>: View {
                 .tracking(0.4)
                 .padding(.bottom, 8)
             VStack(spacing: 0) { content() }
-                .background(Color(NSColor.controlBackgroundColor))
+                .background(SettingsViewColors.sidebarBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .overlay(RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.primary.opacity(0.07), lineWidth: 1))
         }
         .padding(.bottom, 24)
     }
+}
+
+private enum SettingsViewColors {
+    static let sidebarBackground = platformControlBackgroundColor
+    static let windowBackground = platformWindowBackgroundColor
 }
 
 struct RowDivider: View {

@@ -66,7 +66,18 @@ struct BrowserView: View {
                     .zIndex(1)
             }
         }
+        #if os(iOS)
+        .overlay {
+            if showSettings {
+                iPadSettingsView(model: model, isPresented: $showSettings)
+                    .transition(.opacity.combined(with: .scale(scale: 0.97, anchor: .center)))
+                    .animation(.spring(response: 0.35, dampingFraction: 0.85), value: showSettings)
+                    .zIndex(99)
+            }
+        }
+        #else
         .sheet(isPresented: $showSettings) { BrowserSettingsView(model: model) }
+        #endif
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase != .active { model.saveState() }
         }

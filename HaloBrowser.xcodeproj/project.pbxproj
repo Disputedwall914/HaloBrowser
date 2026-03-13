@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B9938AAC2F64605C0069D3B8 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B9938AAB2F6460570069D3B8 /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B9241CE52F5EACFD0076D57B /* HaloBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HaloBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9938AAB2F6460570069D3B8 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +50,7 @@
 		B959E1C22F5C773B0067E1C2 = {
 			isa = PBXGroup;
 			children = (
+				B9938AAB2F6460570069D3B8 /* .gitignore */,
 				B959E1CD2F5C773B0067E1C2 /* HaloBrowser */,
 				B9241CE52F5EACFD0076D57B /* HaloBrowser.app */,
 			);
@@ -115,6 +121,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9938AAC2F64605C0069D3B8 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

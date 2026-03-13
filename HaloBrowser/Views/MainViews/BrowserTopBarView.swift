@@ -74,6 +74,7 @@ struct BrowserTopBarView: View {
                 // URL — tapping opens omnibox
                 Button {
                     model.omniboxInput = activeURLString
+                    model.omniboxOpensNewTab = false
                     withAnimation(.spring(response: 0.25, dampingFraction: 0.85)) {
                         model.showOmnibox = true
                     }

@@ -32,7 +32,11 @@ struct SidebarView: View {
                 Text(model.activeSpace.name).font(.headline).fontWeight(.bold)
                 Spacer()
                 Button {
-                    withAnimation(.spring()) { model.omniboxInput = ""; model.showOmnibox = true }
+                    withAnimation(.spring()) {
+                        model.omniboxInput = ""
+                        model.omniboxOpensNewTab = true
+                        model.showOmnibox = true
+                    }
                 } label: {
                     Image(systemName: "plus")
                         .padding(8)

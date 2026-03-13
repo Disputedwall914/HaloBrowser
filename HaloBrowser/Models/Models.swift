@@ -129,8 +129,12 @@ class BrowserSettings {
     var showSuggestions: Bool = true
     var maxActiveTabs: Int
     var adBlockLevel: Int
-    init(maxActiveTabs: Int = 3, adBlockLevel: Int = 0) {
-        self.maxActiveTabs = maxActiveTabs; self.adBlockLevel = adBlockLevel
+    init(maxActiveTabs: Int = 3, adBlockLevel: Int = 0, searchEngine: String = "Google",
+         showSuggestions: Bool = true) {
+        self.maxActiveTabs = maxActiveTabs
+        self.adBlockLevel = adBlockLevel
+        self.searchEngine = searchEngine
+        self.showSuggestions = showSuggestions
     }
 }
 
@@ -197,6 +201,27 @@ struct PersistedSpace: Codable {
 struct PersistedSettings: Codable {
     let maxActiveTabs: Int
     let adBlockLevel: Int
+    let searchEngine: String
+    let showSuggestions: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case maxActiveTabs, adBlockLevel, searchEngine, showSuggestions
+    }
+
+    init(maxActiveTabs: Int, adBlockLevel: Int, searchEngine: String, showSuggestions: Bool) {
+        self.maxActiveTabs = maxActiveTabs
+        self.adBlockLevel = adBlockLevel
+        self.searchEngine = searchEngine
+        self.showSuggestions = showSuggestions
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        maxActiveTabs = (try? c.decode(Int.self, forKey: .maxActiveTabs)) ?? 3
+        adBlockLevel = (try? c.decode(Int.self, forKey: .adBlockLevel)) ?? 0
+        searchEngine = (try? c.decode(String.self, forKey: .searchEngine)) ?? "Google"
+        showSuggestions = (try? c.decode(Bool.self, forKey: .showSuggestions)) ?? true
+    }
 }
 
 struct PersistedBrowserState: Codable {

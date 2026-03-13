@@ -94,7 +94,12 @@ struct OmniboxView: View {
         else if input.contains(".") && !input.contains(" ") { url = input.hasPrefix("http") ? input : "https://" + input }
         else { url = model.searchURL(for: input) }
 
-        model.openURLInNewTab(url)
+        if model.omniboxOpensNewTab {
+            model.openURLInNewTab(url)
+        } else {
+            model.openURLInCurrentTab(url)
+        }
+        model.omniboxOpensNewTab = false
         withAnimation(.spring()) { model.showOmnibox = false; model.omniboxInput = "" }
     }
 

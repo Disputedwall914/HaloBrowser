@@ -33,6 +33,7 @@ class BrowserViewModel {
     var omniboxInput: String = ""
     var suggestions: [OmniboxSuggestion] = []
     var selectedSuggestionIndex: Int = 0
+    var omniboxOpensNewTab: Bool = false
 
     // MARK: Drag state  (kept in ViewModel so delegates can coordinate)
     var draggingTabId: UUID? = nil
@@ -96,7 +97,9 @@ class BrowserViewModel {
                 sanitizeSelection()
             }
             settings = BrowserSettings(maxActiveTabs: saved.settings.maxActiveTabs,
-                                        adBlockLevel:  saved.settings.adBlockLevel)
+                                        adBlockLevel: saved.settings.adBlockLevel,
+                                        searchEngine: saved.settings.searchEngine,
+                                        showSuggestions: saved.settings.showSuggestions)
         } else {
             let defaults = Self.defaultSpaces()
             spaces = defaults; activeSpaceId = defaults[0].id
@@ -128,7 +131,9 @@ class BrowserViewModel {
         let state = PersistedBrowserState(spaces: persistedSpaces, activeSpaceId: activeSpaceId,
                                           activeTabId: activeTabId,
                                           settings: PersistedSettings(maxActiveTabs: settings.maxActiveTabs,
-                                                                       adBlockLevel:  settings.adBlockLevel))
+                                                                       adBlockLevel: settings.adBlockLevel,
+                                                                       searchEngine: settings.searchEngine,
+                                                                       showSuggestions: settings.showSuggestions))
         if let data = try? JSONEncoder().encode(state) {
             UserDefaults.standard.set(data, forKey: Self.persistenceKey)
         }
@@ -199,6 +204,23 @@ class BrowserViewModel {
         let tab = HaloTab(url: urlString)
         activeSpace.tabs.append(tab)
         selectTab(tab)
+    }
+
+    /// Navigate the currently active tab to a new URL (falls back to a new tab if none active)
+    func openURLInCurrentTab(_ urlString: String) {
+        guard let tab = activeTab else {
+            openURLInNewTab(urlString)
+            return
+        }
+        tab.urlString = urlString
+        if let url = URL(string: urlString) {
+            if tab.page == nil {
+                tab.wake()
+            } else {
+                tab.page?.load(URLRequest(url: url))
+            }
+        }
+        saveState()
     }
 
     /// Sleep tabs beyond the memory cap — oldest non-active tabs sleep first
